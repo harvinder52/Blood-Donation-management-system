@@ -1,0 +1,102 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container mt-5 my-5 bg-white">
+  <h3 class="text-center mb-4">Welcome to the Admin Dashboard</h3>
+  <p class="text-center">Hello, {{ user.username }}!</p>
+
+  <!-- Blood Requests Section -->
+  <h3 class="text-center mb-4">Blood Requests</h3>
+  {% if blood_requests %}
+  <div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>Name</th>
+          <th>Blood Group</th>
+          <th>City</th>
+          <th>Contact</th>
+          <th>Address</th>
+          <th>Date of Birth</th>
+          <th>Actions</th>
+          <!-- New column for action buttons -->
+        </tr>
+      </thead>
+      <tbody>
+        {% for request in blood_requests %}
+        <tr>
+          <td>{{ request.full_name }}</td>
+          <td>{{ request.blood_group }}</td>
+          <td>{{ request.city }}</td>
+          <td>{{ request.contact_number }}</td>
+          <td>{{ request.address }}</td>
+          <td>{{ request.date_of_birth }}</td>
+          <td>
+            <!-- Approve button -->
+            <a
+              href="{% url 'approve_request' request.id %}"
+              class="btn btn-success btn-sm"
+              >Approve</a
+            >
+
+            <!-- Delete button -->
+            <a
+              href="{% url 'delete_request' request.id %}"
+              class="btn btn-danger btn-sm"
+              onclick="return confirm('Are you sure you want to delete this request?');"
+              >Delete</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>No blood requests found.</p>
+  {% endif %}
+
+  <!-- Donors Section -->
+  <h3 class="text-center mt-5 mb-4">Registered Donors</h3>
+  {% if donors %}
+  <div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th>Name</th>
+          <th>Blood Group</th>
+          <th>City</th>
+          <th>Contact</th>
+          <th>Address</th>
+          <th>Date of Birth</th>
+          <th>Actions</th>
+          <!-- New column for action buttons -->
+        </tr>
+      </thead>
+      <tbody>
+        {% for donor in donors %}
+        <tr>
+          <td>{{ donor.first_name }} {{ donor.last_name }}</td>
+          <td>{{ donor.blood_group }}</td>
+          <td>{{ donor.city }}</td>
+          <td>{{ donor.contact_number }}</td>
+          <td>{{ donor.address }}</td>
+          <td>{{ donor.date_of_birth }}</td>
+          <td>
+            <!-- Delete button for donors -->
+            <a
+              href="{% url 'delete_donor' donor.id %}"
+              class="btn btn-danger btn-sm"
+              onclick="return confirm('Are you sure you want to delete this donor?');"
+              >Delete</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>No donors found.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

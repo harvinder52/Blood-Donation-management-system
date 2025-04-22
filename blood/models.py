@@ -1,4 +1,24 @@
 from django.db import models
+from django.shortcuts import render
+from django.utils import timezone
+import uuid
+
+class User(models.Model):
+    email = models.EmailField(unique=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.email
+
+class EmailOTP(models.Model):
+    email = models.EmailField()
+    otp = models.CharField(max_length=6)
+    created_at = models.DateTimeField(default=timezone.now)
+    is_verified = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.email} - {self.otp}"
+
 
 class Contact(models.Model):
     name = models.CharField(max_length=100)
@@ -26,15 +46,16 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
-    
+
+
 class Donor(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    email = models.EmailField()
-    contact_number = models.CharField(max_length=20)
+    email = models.EmailField(unique=True)  # Ensuring unique email
+    contact_number = models.CharField(max_length=20, blank=True, null=True)  # Optional contact number
     state = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
-    address = models.TextField()
+    address = models.TextField(blank=True, null=True)  # Optional address
     GENDER_CHOICES = [
         ('Male', 'Male'),
         ('Female', 'Female'),
@@ -42,7 +63,6 @@ class Donor(models.Model):
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES)
     blood_group = models.CharField(max_length=10)
     date_of_birth = models.DateField()
-    password = models.CharField(max_length=100)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -76,3 +96,12 @@ class registerform(models.Model):
 
     def __str__(self):
         return self.email
+    
+
+def admin_dashboard(request):
+    blood_requests = BloodRequest.objects.all().order_by('-request_date')
+    donors = Donor.objects.all().order_by('-registered_on')  # adjust field names as per your model
+    return render(request, 'admin_dashboard.html', {
+        'blood_requests': blood_requests,
+        'donors': donors,
+    })

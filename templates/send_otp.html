@@ -1,0 +1,52 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container mt-5 my-5" style="max-width: 400px">
+  <h3 class="text-center mb-4 text-danger">Verify Email</h3>
+
+  {% if message %}
+  <div class="alert alert-info text-center">{{ message }}</div>
+  {% endif %} {% if error %}
+  <div class="alert alert-danger text-center">{{ error }}</div>
+  {% endif %}
+
+  <form method="POST" id="otpForm">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="email" class="form-label">Enter your Email</label>
+      <input
+        type="email"
+        class="form-control"
+        name="email"
+        id="email"
+        placeholder="example@example.com"
+        required
+      />
+    </div>
+
+    <div class="d-grid">
+      <button type="submit" class="btn btn-danger" id="submitBtn">
+        <span id="btnText">Send OTP</span>
+        <span
+          id="spinner"
+          class="spinner-border spinner-border-sm d-none"
+          role="status"
+          aria-hidden="true"
+        ></span>
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+  document.getElementById("otpForm").addEventListener("submit", function () {
+    const btn = document.getElementById("submitBtn");
+    const spinner = document.getElementById("spinner");
+    const btnText = document.getElementById("btnText");
+
+    btn.disabled = true;
+    btnText.textContent = "Sending...";
+    spinner.classList.remove("d-none");
+  });
+</script>
+
+{% endblock %}

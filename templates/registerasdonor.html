@@ -5,144 +5,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blood Donation </title>
+    <title>Blood Donation</title>
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Static CSS and JS -->
     <link rel="stylesheet" href="{% static 'css/logo.css' %}">
     <script src="{% static 'js/register.js' %}"></script>
+
+    <!-- Favicon -->
     <link rel="shortcut icon" href="{% static 'images/logo.jpg' %}" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        /* General Styling */
+      body {
+            font-family: Arial, sans-serif;
+           
+             /* Add top padding for space below the navbar */
+        }
+
+        /* Navbar Style */
+      #navbar {
+    background-color: white;
+    
+    margin: 10px  auto;
+    max-width: 1200px;
+    
+}
+
+.hero-section {
+    width: 100%;
+    max-width: 1200px; /* Same as navbar */
+    margin: 0 auto; /* Center the hero image */
+    margin-top: -10px; /* Optionally adjust this if the image is too close to navbar */
+}
+
+.hero-section img {
+    width: 100%;
+    height: auto;
+    border-radius: 15px; /* Match the rounded corners of the navbar */
+}
+
+        
+
+        /* Container to Add Padding and Center Content */
+        .container {
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .navbar-nav .nav-link {
+    color: black !important;
+    font-size: 1.1rem;
+}
+
+        h1 {
+            color: #d62828;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        .navbar {
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .navbar .nav-link {
+            color: #000 !important;
+            font-weight: 500;
+        }
+        .navbar .navbar-brand {
+            font-weight: 700;
+            color: #d62828 !important;
+        }
+
+        /* Header Section */
+        #one {
+            margin-top: 5rem;
+            text-align: center;
+        }
+        #imglogo {
+            width: 80px;
+            height: 50px;
+        }
+
+        /* Form Container */
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        .form-group label {
+            font-weight: bold;
+            color: #333;
+        }
+        .form-control {
+            border-radius: 10px;
+            box-shadow: none;
+            padding: 12px;
+            margin-top: 8px;
+        }
+        .form-btn {
+            background-color: #d62828;
+            color: white;
+            font-size: 16px;
+            padding: 12px 24px;
+            width: 100%;
+            border-radius: 30px;
+            border: none;
+            transition: background-color 0.3s;
+        }
+        .form-btn:hover {
+            background-color: #b32a2a;
+        }
+        .form-btn:active {
+            background-color: #9a2121;
+        }
+
+        /* Image Section */
+        .image-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .image-section img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #222;
+            color: white;
+            padding: 2rem 0;
+        }
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .footer .social-icons a {
+            margin: 0 10px;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+        
+    </style>
 </head>
+<script>
+function handleFormSubmit() {
+    const form = document.forms['myform1'];
+
+    if (form.checkValidity()) {
+        // Show Bootstrap Modal
+        var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+        successModal.show();
+
+        // Clear the form after a short delay
+        setTimeout(() => {
+            form.reset();
+        }, 1000);
+    } else {
+        form.reportValidity(); // shows validation messages
+    }
+}
+
+</script>
+
 
 <body>
-    <div class="container-fluid mt-5" id="one">
-        <div><img src="{% static 'images/image5.jpg' %}" width="80" height="50" id="imglogo"></div>
-        <h5 style="float:right;"><br><b><i></i></b></h5>
-        <h1>BLOOD DONATION</h1>
-    </div>
-    <div id="navbar">
-        <nav class="navbar navbar-expand-sm mt-2">
-            <div class="container-fluid">
-                <ul class="navbar-nav">
-                    {% comment %} <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login.html' %}">Login</a>
-                    </li> {% endcomment %}
-                    <li>
-                        <a class="nav-link" href="{% url 'motive.html' %}">Motive</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{% url 'requestforblood.html' %}">Request For Blood</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{% url 'seeallrequest.html' %}">See All Request</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{% url 'registerasdonor.html' %}">RegisterAsDonor</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{% url 'contactus.html' %}">Contactus</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{% url 'feedback.html' %}">Feedback</a>
-                    </li>
-                </ul>
-                
-            </div>
-        </nav>
-    </div>
-    <img src="{% static 'images/image9.jpg' %}" width="100%" height="580">
-    <div class="container-fluis p-2 mt-3">
-        <h1 style="color:black;background-color:red;text-align:center;font-family:inkfree">
-            <marquee scrollamount="20" behavior="alternate"><b><i>Register As Donor</i></b></marquee>
-        </h1>
-        <h5 style="text-align: center;"></h5>
-        <div class="container">
-            <form name="myform1" method="POST" action="">
-                {% csrf_token %}
-                <div class="a2" style="margin-left:90px;margin-top:20px;margin-bottom:90px;margin-right:90px">
 
-                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
-                        <label for="First Name">First Name:</label>
-                        <input type="text" class="form-control" id="First Name" name="FirstName"
-                            placeholder="Enter first name" required />
+    
+
+    <body>
+    <!-- Header Section -->
+
+    <!-- Navbar -->
+    <div id="navbar">
+    <nav class="navbar navbar-expand-sm navbar-light bg-white shadow rounded ">
+        <div class="container-fluid">
+            <!-- Left side: KHH logo -->
+            <a class="navbar-brand fw-bold text-danger fs-4" href="#">KHH</a>
+
+            <!-- Navbar toggler for small screens -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarRight" aria-controls="navbarRight" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Right side: nav links -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarRight">
+                <ul class="navbar-nav mb-2 mb-sm-0">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'motive' %}">Motive</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'request_for_blood' %}">Request For Blood</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'see_all_request' %}">See All Request</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'register_as_donor' %}">RegisterAsDonor</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contactus' %}">Contactus</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'feedback' %}">Feedback</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <img src="{% static 'images/image30.png' %}" alt="Blood Donation">
+</div>
+
+
+    <!-- Form Section -->
+    <div class="container form-container">
+        <h1 class="text-center">Register as a Donor</h1>
+        <form name="myform1" method="POST" action="">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="FirstName">First Name:</label>
+                        <input type="text" class="form-control" id="FirstName" name="first_name" placeholder="Enter first name" required />
                     </div>
-                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
-                        <label for="Last Name">Last Name:</label>
-                        <input type="text" class="form-control" id="Last Name" name="LastName"
-                            placeholder="Enter last name"  required/>
+            
+                    <div class="form-group">
+                        <label for="LastName">Last Name:</label>
+                        <input type="text" class="form-control" id="LastName" name="last_name" placeholder="Enter last name" required />
                     </div>
-                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
+            
+                    <div class="form-group">
                         <label for="Email">Email:</label>
-                        <input type="email" class="form-control" id="Email" name="Email" placeholder="Enter email" required />
+                        <input type="email" class="form-control" id="Email" name="email" placeholder="Enter email" required />
                     </div>
-                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
+            
+                    <div class="form-group">
                         <label for="Contact">Contact:</label>
-                        <input type="text" class="form-control" id="contact" name="ContactNumber"
-                            placeholder="Enter contact number" required/>
+                        <input type="text" class="form-control" id="Contact" name="contact_number" placeholder="Enter contact number" required />
                     </div>
-                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
+            
+                    <div class="form-group">
                         <label for="State">State:</label>
-                        <input type="text" class="form-control" id="state" name="state" placeholder="Enter state" required/>
+                        <input type="text" class="form-control" id="State" name="state" placeholder="Enter state" required />
                     </div>
-                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
-                        <label for="City">City:</label>
-                        <input type="text" class="form-control" id="city" name="city" placeholder="Enter city" required />
+            
+                    <div class="form-group">
+                        <label for="bloodgroup">Blood Group:</label>
+                        <select class="form-control" id="bloodgroup" name="blood_group" required>
+                            <option value="">-- Select Blood Group --</option>
+                            <option value="A+">A+</option>
+                            <option value="A−">A−</option>
+                            <option value="B+">B+</option>
+                            <option value="B−">B−</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB−">AB−</option>
+                            <option value="O+">O+</option>
+                            <option value="O−">O−</option>
+                        </select>
                     </div>
-                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
-                        <label for="Address">Address:</label>
-                        <textarea class="form-control" id="Address" name="Address"
-                            placeholder="Enter address"></textarea>
-                    </div>
-                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
-                        <label for="Gender">Gender:</label>
-                        <br>
-                        <input type="radio" id="Male" name="Gender" value="Male">
-                        <label for="Male">Male</label>
-                        <br>
-                        <input type="radio" id="Female" name="Gender" value="Female">
-                        <label for="Female">Female</label>
-                    </div>
-                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
-                        <label for="Blood Group">Blood Group:</label>
-                        <input type="text" class="form-control" id="bloodgroup" name="bloodgroup"
-                            placeholder="Enter blood group"  required/>
-                    </div>
-                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
-                        <label for="Date of Birth">Date of Birth:</label>
-                        <input type="date" class="form-control" id="date_birth" name="date_birth"
-                            placeholder="Enter date of birth" required />
-                    </div>
-                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
-                        <label for="Password">Password:</label>
-                        <input type="password" class="form-control" id="Password" name="Password"
-                            placeholder="Enter password" required/>
-                    </div>
-                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
-                        <label for="Confirm Password">Confirm Password:</label>
-                        <input type="password" class="form-control" id="CPwd" name="CPwd"
-                            placeholder="Confirm password" required/>
-                    </div>
-                    <button type="submit" style="margin-top:25px;margin-left:25px;margin-bottom:10px;"
-                        class="btn btn-primary" onclick="return validate()">Submit</button>
                 </div>
-            </form>
-        </div>
+            
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="City">City:</label>
+                        <input type="text" class="form-control" id="City" name="city" placeholder="Enter city" required />
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="Address">Address:</label>
+                        <textarea class="form-control" id="Address" name="address" placeholder="Enter address"></textarea>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="Gender">Gender:</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gender" id="Male" value="Male">
+                            <label class="form-check-label" for="Male">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gender" id="Female" value="Female">
+                            <label class="form-check-label" for="Female">Female</label>
+                        </div>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="DateOfBirth">Date of Birth:</label>
+                        <input type="date" class="form-control" id="DateOfBirth" name="date_of_birth" required />
+                    </div>
+            
+                    <button type="submit" class="btn btn-primary">Register Now!</button>
+                </div>
+            </div>
+            
+        </form>
     </div>
-    <footer class="footer mt-auto py-3 bg-dark text-white">
-        <div class="container text-center">
+
+    <!-- Footer -->
+    <footer class="footer text-center">
         <p>Stay Connected:</p>
-        <a href="https://www.facebook.com" class="btn btn-outline-light btn-social mx-1"><i class='fab fa-facebook-f'></i></a>
-        <a href="https://www.twitter.com" class="btn btn-outline-light btn-social mx-1"><i class='fab fa-twitter'></i></a>
-        <a href="https://www.linkedin.com" class="btn btn-outline-light btn-social mx-1"><i class='fab fa-linkedin-in'></i></a>
-        <a href="https:www.instagram.com" class="btn btn-outline-light btn-social mx-1"><i class='fab fa-instagram'></i></a>
-        <br><br>
-            <p>Donate Blood, Save Lives!</p>
-            <p>For more information, visit our <a href="#">Blood Donation Website</a></p>
-            <p>&copy; 2024 Blood Donation </p>
+        <div class="social-icons">
+            <a href="https://www.facebook.com"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.twitter.com"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com"><i class="fab fa-instagram"></i></a>
         </div>
+        <p>&copy; 2025 Blood Donation, All Rights Reserved.</p>
     </footer>
+
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="successModalLabel">Registration Successful</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Thank you for registering as a donor!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% if show_modal %}
+<script>
+    window.addEventListener('load', function () {
+        var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+        successModal.show();
+    });
+</script>
+{% endif %}
+
+
 </body>
 
 </html>

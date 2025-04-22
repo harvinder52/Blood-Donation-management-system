@@ -12,48 +12,73 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="{% static 'request.js' %}"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+           
+             /* Add top padding for space below the navbar */
+        }
+
+        /* Navbar Style */
+      #navbar {
+    background-color: white;
+    
+    margin: 10px  auto;
+    max-width: 1200px;
+    
+}
+ .navbar-nav .nav-link {
+    color: black !important;
+    font-size: 1.1rem;
+}
+.hero-section {
+    width: 100%;
+    max-width: 1200px; /* Same as navbar */
+    margin: 0 auto; /* Center the hero image */
+    margin-top: -10px; /* Optionally adjust this if the image is too close to navbar */
+}
+
+.hero-section img {
+    width: 100%;
+    height: auto;
+    border-radius: 15px; /* Match the rounded corners of the navbar */
+}
+
+ </style>
 
 </head>
 
 <body>
-    <div class="container-fluid mt-5" id="one">
-        <div><img src="{% static 'images/image5.jpg' %}" width="80" height="50" id="imglogo"></div>
-        <h5 style="float:right;"><br><b><i></i></b></h5>
-        <h1>BLOOD DONATION</h1>
-    </div>
     <div id="navbar">
-        <nav class="navbar navbar-expand-sm mt-2">
-            <div class="container-fluid">
-                <ul class="navbar-nav">
-                    {% comment %} <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login.html' %}">Login</a>
-                    </li> {% endcomment %}
-                    <li>
-                        <a class="nav-link" href="{% url 'motive.html' %}">Motive</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{% url 'requestforblood.html' %}">Request For Blood</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{% url 'seeallrequest.html' %}">See All Request</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{% url 'registerasdonor.html' %}">RegisterAsDonor</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{% url 'contactus.html' %}">Contactus</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{% url 'feedback.html' %}">Feedback</a>
-                    </li>
+    <nav class="navbar navbar-expand-sm navbar-light bg-white shadow rounded ">
+        <div class="container-fluid">
+            <!-- Left side: KHH logo -->
+            <a class="navbar-brand fw-bold text-danger fs-4" href="#">KHH</a>
+
+            <!-- Navbar toggler for small screens -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarRight" aria-controls="navbarRight" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Right side: nav links -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarRight">
+                <ul class="navbar-nav mb-2 mb-sm-0">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'motive' %}">Motive</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'request_for_blood' %}">Request For Blood</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'see_all_request' %}">See All Request</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'register_as_donor' %}">RegisterAsDonor</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contactus' %}">Contactus</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'feedback' %}">Feedback</a></li>
                 </ul>
-                
             </div>
-        </nav>
+        </div>
+    </nav>
+</div>
+    <div class="hero-section">
+    <img src="{% static 'images/image24.jpg' %}" width="100%" height="260px">
     </div>
-    <img src="{% static 'images/image24.jpg' %}" width="100%" height="580">
     <div class="container-fluis p-2 mt-3">
-        <h1 style="color:black;background-color:red;text-align:center;font-family:inkfree">
+        <h1 >
             <marquee scrollamount="20" behavior="alternate"><b><i>Request For Blood</i></b></marquee>
         </h1>
         <h5 style="text-align: center;"></h5>
@@ -143,7 +168,7 @@
             <br><br>
                 <p>Donate Blood, Save Lives!</p>
                 <p>For more information, visit our <a href="#">Blood Donation Website</a></p>
-                <p>&copy; 2024 Blood Donation </p>
+                <p>&copy; 2025 Blood Donation </p>
             </div>
         </footer>
 </body>

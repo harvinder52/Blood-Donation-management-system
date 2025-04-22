@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% block content %}
+<div class="bg-white p-2">
+  <div class="container mt-5 my-5 bg-white" style="max-width: 400px">
+    <h3 class="text-center mb-4 text-danger">Admin Login</h3>
+    <form method="POST">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input type="text" name="username" class="form-control" required />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" required />
+      </div>
+      {% if error %}
+      <small class="text-danger">{{ error }}</small>
+      {% endif %}
+
+      <div class="d-grid">
+        <button type="submit" class="btn btn-danger">Login</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

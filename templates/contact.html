@@ -12,101 +12,10 @@
     <script src="{% static 'portfolio.js' %}"></script>
 </head>
 <body>
-    <div class="container-fluid mt-5" id="one">
-        <div>
-            <img src="{% static 'images/image7.jpg' %}" width="80" height="50" id="imglogo">
-        </div>
-        <h5 style="float:right;"><br><b><i></i></b></h5>
-        <h1>BLOOD DONATION</h1>
+    <div class="container-fluid mt-5 text-align-center" >
+        
+        <h1>Under Construction!</h1>
     </div>
-    <div id="navbar">
-        <nav class="navbar navbar-expand-sm mt-1">
-            <div class="container-fluid">
-                <ul class="navbar-nav">
-                    {% comment %} <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login.html' %}">Login</a>
-                    </li> {% endcomment %}
-                    <li>
-                        <a class="nav-link" href="{% url 'motive.html' %}">Motive</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{% url 'requestforblood.html' %}">Request For Blood</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{% url 'seeallrequest.html' %}">See All Request</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{% url 'registerasdonor.html' %}">RegisterAsDonor</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{% url 'contactus.html' %}">Contactus</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{% url 'feedback.html' %}">Feedback</a>
-                    </li>
-                </ul>
-                
-            </div>
-        </nav>
-    </div>
-    <img src="{% static 'images/img1.gif' %}" width="100%" height="580"><br><br>
-    <div class="container-fluis p-2 mt-2">
-        <h1 style="color:black;background-color:red;text-align:center;font-family:inkfree">
-            <b><i>Contact</i></b>
-        </h1>
-        <h5 style="text-align: center;"></h5>
-    </div>
-
-
-    <div class="container mt-10"> 
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <form name="myform1" method="POST">
-                    {% csrf_token %}
-                    <div class="a2">
-                        <div class="form-group">
-                            <label for="UserName">UserName:</label>
-                            <input type="text" class="form-control form-control-lg" name="name" placeholder="Enter UserName"  required/>
-                        </div>
-                        <div class="form-group">
-                            <label for="Email">Email no:</label>
-                            <input type="text" class="form-control form-control-lg" name="email" placeholder="abc@gmail.com" required/>
-                        </div>
-                        <div class="form-group">
-                            <label for="Phone no.">Phone no:</label>
-                            <div class="input-group">
-                                <span class="input-group-text" id="basic-addon1">+91</span>
-                                <input type="number" class="form-control form-control-lg" name="Phoneno" placeholder="00000-00000" required/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="State">Required blood:</label>
-                            <select class="form-select form-select-lg" name="blood_need" required>
-                                <option selected>Required blood</option>
-                                <option value="Donate">Donate</option>
-                                <option value="Received blood">Received blood</option>
-                            </select>
-                        </div>
-                        <div class="text-center">
-                            <input type="submit" class="btn btn-primary btn-lg" value="Submit" onclick="return valid()" />
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <footer class="footer mt-auto py-3 bg-dark text-white">
-            <div class="container text-center">
-               <p>Stay Connected:</p>
-            <a href="https://www.facebook.com" class="btn btn-outline-light btn-social mx-1"><i class='fab fa-facebook-f'></i></a>
-            <a href="https://www.twitter.com" class="btn btn-outline-light btn-social mx-1"><i class='fab fa-twitter'></i></a>
-            <a href="https://www.linkedin.com" class="btn btn-outline-light btn-social mx-1"><i class='fab fa-linkedin-in'></i></a>
-            <a href="https:www.instagram.com" class="btn btn-outline-light btn-social mx-1"><i class='fab fa-instagram'></i></a>
-            <br><br>
-                <p>Donate Blood, Save Lives!</p>
-                <p>For more information, visit our <a href="#">Blood Donation Website</a></p>
-                <p>&copy; 2024 Blood Donation </p>
-            </div>
-        </footer>
-    </div>
+    
 </body>
 </html>

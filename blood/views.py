@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+import random
 from django.http import HttpResponse
 from .models import Contact
 from .models import Feedback
@@ -6,6 +7,128 @@ from .models import Donor
 from .models import BloodRequest
 from .models import loginform
 from .models import registerform
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.core.mail import send_mail
+from .forms import DonorForm, EmailForm, OTPForm
+from .models import EmailOTP, User
+from django.utils import timezone
+
+
+from .models import BloodRequest, Donor
+
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+
+# Approve a blood request
+def approve_request(request, request_id):
+    blood_request = get_object_or_404(BloodRequest, id=request_id)
+    blood_request.status = 'Approved'  # Update status to 'Approved'
+    blood_request.save()  # Save the changes
+    return redirect('admin_dashboard')  # Redirect to the admin dashboard
+
+# Delete a blood request
+def delete_request(request, request_id):
+    blood_request = get_object_or_404(BloodRequest, id=request_id)
+    blood_request.delete()  # Delete the request from the database
+    return redirect('admin_dashboard')  # Redirect to the admin dashboard
+
+def delete_donor(request, donor_id):
+    donor = get_object_or_404(Donor, id=donor_id)
+    donor.delete()  # Delete the donor from the database
+    return redirect('admin_dashboard')
+
+@login_required(login_url='admin_login')
+def admin_dashboard(request):
+    if not request.user.is_staff and not request.user.is_superuser:
+        return redirect('admin_login')
+    blood_requests = BloodRequest.objects.all()
+    donors = Donor.objects.all()  # Query all donors
+    return render(request, 'admin_dashboard.html', {'blood_requests': blood_requests, 'donors': donors})
+
+
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+
+def admin_login(request):
+    error = None
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None and (user.is_staff or user.is_superuser):
+            auth_login(request, user)
+            return redirect('admin_dashboard')
+        else:
+            error = "Invalid username or password."
+
+    return render(request, 'admin_login.html', {'error': error})
+
+
+
+def admin_logout(request):
+    auth_logout(request)
+    return(redirect('/'))
+
+
+def user_dashboard(request):
+    if 'logged_in_user' not in request.session:
+        return redirect('send_otp')  # or a login page if you have one
+    return render(request, 'user_dashboard.html')
+
+
+def send_otp(request):
+    if request.method == 'POST':
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            otp = str(random.randint(100000, 999999))
+
+            EmailOTP.objects.create(email=email, otp=otp)
+
+            send_mail(
+                'Your OTP Code',
+                f'Use this OTP to verify your email: {otp}',
+                'youremail@example.com',
+                [email],
+                fail_silently=False,
+            )
+            request.session['user_email'] = email
+            return redirect('verify_otp')
+    else:
+        form = EmailForm()
+    return render(request, 'send_otp.html', {'form': form})
+
+def verify_otp(request):
+    email = request.session.get('user_email')
+    if not email:
+        return redirect('send_otp')
+
+    if request.method == 'POST':
+        form = OTPForm(request.POST)
+        if form.is_valid():
+            otp_input = form.cleaned_data['otp']
+            otp_record = EmailOTP.objects.filter(email=email, otp=otp_input).last()
+            if otp_record:
+                otp_record.is_verified = True
+                otp_record.save()
+                user, created = User.objects.get_or_create(email=email)
+                request.session['logged_in_user'] = user.email
+                return redirect('user_dashboard')
+            else:
+                form.add_error('otp', 'Invalid OTP')
+    else:
+        form = OTPForm()
+    return render(request, 'verify_otp.html', {'form': form})
+def logout_view(request):
+    auth_logout(request)  # This will log the user out
+    return redirect('/') 
 
 def registed(request):
     if request.method == 'POST':
@@ -73,40 +196,20 @@ def see_all_request(request):
     blood_requests = BloodRequest.objects.all()
     return render(request, 'seeallrequest.html', {'blood_requests': blood_requests})
 
-def register_as_donor(request):
-    if request.method == 'POST':
-        # Retrieve data from the form
-        first_name = request.POST.get('FirstName')
-        last_name = request.POST.get('LastName')
-        email = request.POST.get('Email')
-        contact_number = request.POST.get('ContactNumber')
-        state = request.POST.get('state')
-        city = request.POST.get('city')
-        address = request.POST.get('Address')
-        gender = request.POST.get('Gender')
-        blood_group = request.POST.get('bloodgroup')
-        date_of_birth = request.POST.get('date_birth')
-        password = request.POST.get('Password')
 
-        # Create a new donor object
-        donor = Donor(
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            contact_number=contact_number,
-            state=state,
-            city=city,
-            address=address,
-            gender=gender,
-            blood_group=blood_group,
-            date_of_birth=date_of_birth,
-            password=password
-        )
-    
-        donor.save()
-        return render(request, 'thanks.html')
+def register_as_donor(request):
+    context = {}
+    if request.method == 'POST':
+        form = DonorForm(request.POST)
+        if form.is_valid():
+            form.save()
+        
+        context["show_modal"] = True  # Save the donor data to the database
+             # Redirect to a success page after successful registration
     else:
-        return render(request, 'registerasdonor.html')
+        form = DonorForm()
+
+    return render(request, 'registerasdonor.html', {'form': form})
 
 def contact(request):
     if request.method == 'POST':
@@ -160,6 +263,11 @@ def feedback(request):
 
         return render(request,'thanks_feedback.html')
     return render(request, 'feedback.html')
+
+
+
+
+
 
 def thanks_feedback(request):
     return render(request, 'thanks_feedback.html')

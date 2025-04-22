@@ -1,0 +1,32 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container mt-5 my-5" style="max-width: 400px">
+  <h3 class="text-center mb-4 text-danger">Verify OTP</h3>
+
+  {% if message %}
+  <div class="alert alert-info text-center">{{ message }}</div>
+  {% endif %} {% if error %}
+  <div class="alert alert-danger text-center">{{ error }}</div>
+  {% endif %}
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="otp" class="form-label">Enter OTP</label>
+      <input
+        type="text"
+        class="form-control"
+        id="otp"
+        name="otp"
+        placeholder="Enter the OTP sent to your email"
+        required
+      />
+    </div>
+
+    <div class="d-grid">
+      <button type="submit" class="btn btn-danger">Verify OTP</button>
+    </div>
+  </form>
+</div>
+
+{% endblock %}
