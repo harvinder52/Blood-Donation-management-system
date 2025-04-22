@@ -1,0 +1,13 @@
+h1{
+    background-color: red;
+    text-align:center;
+    font-size:60px;
+   
+}
+#a1{
+    text-align: justify;
+    font-size: 25px;
+    float: left ;
+    z-index:  -1;
+
+}

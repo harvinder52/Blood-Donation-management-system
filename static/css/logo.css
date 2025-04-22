@@ -1,0 +1,47 @@
+#one {
+    height: 50px;
+    width: 100%;
+    background-color: red;
+    text-align: center;
+    color: black;
+}
+
+ul li {
+    padding-right: 40px;
+}
+
+a:hover {
+    background-color: red;
+}
+
+img {
+    float: left;
+}
+
+.navbar-nav {
+    margin-top: 20px;
+    font-size: 25px;
+    border: 5px;
+}
+
+#navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: #fff;
+}
+
+.a2 {
+    border: solid 3px black;
+    box-shadow: 10px 10px 8px 10px rgb(58, 56, 56);
+}
+
+.zoom-in {
+    transform: scale(1);
+    transition: .3s all;
+}
+
+.zoom-in:hover {
+    transform: scale(1.1);
+    transition: .3s all;
+}

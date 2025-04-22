@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Donation </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/logo.css' %}">
+    <script src="{% static 'js/register.js' %}"></script>
+    <link rel="shortcut icon" href="{% static 'images/logo.jpg' %}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body>
+    <div class="container-fluid mt-5" id="one">
+        <div><img src="{% static 'images/image5.jpg' %}" width="80" height="50" id="imglogo"></div>
+        <h5 style="float:right;"><br><b><i></i></b></h5>
+        <h1>BLOOD DONATION</h1>
+    </div>
+    <div id="navbar">
+        <nav class="navbar navbar-expand-sm mt-2">
+            <div class="container-fluid">
+                <ul class="navbar-nav">
+                    {% comment %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login.html' %}">Login</a>
+                    </li> {% endcomment %}
+                    <li>
+                        <a class="nav-link" href="{% url 'motive.html' %}">Motive</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{% url 'requestforblood.html' %}">Request For Blood</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{% url 'seeallrequest.html' %}">See All Request</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{% url 'registerasdonor.html' %}">RegisterAsDonor</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{% url 'contactus.html' %}">Contactus</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{% url 'feedback.html' %}">Feedback</a>
+                    </li>
+                </ul>
+                
+            </div>
+        </nav>
+    </div>
+    <img src="{% static 'images/image9.jpg' %}" width="100%" height="580">
+    <div class="container-fluis p-2 mt-3">
+        <h1 style="color:black;background-color:red;text-align:center;font-family:inkfree">
+            <marquee scrollamount="20" behavior="alternate"><b><i>Register As Donor</i></b></marquee>
+        </h1>
+        <h5 style="text-align: center;"></h5>
+        <div class="container">
+            <form name="myform1" method="POST" action="">
+                {% csrf_token %}
+                <div class="a2" style="margin-left:90px;margin-top:20px;margin-bottom:90px;margin-right:90px">
+
+                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
+                        <label for="First Name">First Name:</label>
+                        <input type="text" class="form-control" id="First Name" name="FirstName"
+                            placeholder="Enter first name" required />
+                    </div>
+                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
+                        <label for="Last Name">Last Name:</label>
+                        <input type="text" class="form-control" id="Last Name" name="LastName"
+                            placeholder="Enter last name"  required/>
+                    </div>
+                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
+                        <label for="Email">Email:</label>
+                        <input type="email" class="form-control" id="Email" name="Email" placeholder="Enter email" required />
+                    </div>
+                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
+                        <label for="Contact">Contact:</label>
+                        <input type="text" class="form-control" id="contact" name="ContactNumber"
+                            placeholder="Enter contact number" required/>
+                    </div>
+                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
+                        <label for="State">State:</label>
+                        <input type="text" class="form-control" id="state" name="state" placeholder="Enter state" required/>
+                    </div>
+                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
+                        <label for="City">City:</label>
+                        <input type="text" class="form-control" id="city" name="city" placeholder="Enter city" required />
+                    </div>
+                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
+                        <label for="Address">Address:</label>
+                        <textarea class="form-control" id="Address" name="Address"
+                            placeholder="Enter address"></textarea>
+                    </div>
+                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
+                        <label for="Gender">Gender:</label>
+                        <br>
+                        <input type="radio" id="Male" name="Gender" value="Male">
+                        <label for="Male">Male</label>
+                        <br>
+                        <input type="radio" id="Female" name="Gender" value="Female">
+                        <label for="Female">Female</label>
+                    </div>
+                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
+                        <label for="Blood Group">Blood Group:</label>
+                        <input type="text" class="form-control" id="bloodgroup" name="bloodgroup"
+                            placeholder="Enter blood group"  required/>
+                    </div>
+                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
+                        <label for="Date of Birth">Date of Birth:</label>
+                        <input type="date" class="form-control" id="date_birth" name="date_birth"
+                            placeholder="Enter date of birth" required />
+                    </div>
+                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
+                        <label for="Password">Password:</label>
+                        <input type="password" class="form-control" id="Password" name="Password"
+                            placeholder="Enter password" required/>
+                    </div>
+                    <div class="form-group" style="margin-left:25px;margin-top:25px;">
+                        <label for="Confirm Password">Confirm Password:</label>
+                        <input type="password" class="form-control" id="CPwd" name="CPwd"
+                            placeholder="Confirm password" required/>
+                    </div>
+                    <button type="submit" style="margin-top:25px;margin-left:25px;margin-bottom:10px;"
+                        class="btn btn-primary" onclick="return validate()">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <footer class="footer mt-auto py-3 bg-dark text-white">
+        <div class="container text-center">
+        <p>Stay Connected:</p>
+        <a href="https://www.facebook.com" class="btn btn-outline-light btn-social mx-1"><i class='fab fa-facebook-f'></i></a>
+        <a href="https://www.twitter.com" class="btn btn-outline-light btn-social mx-1"><i class='fab fa-twitter'></i></a>
+        <a href="https://www.linkedin.com" class="btn btn-outline-light btn-social mx-1"><i class='fab fa-linkedin-in'></i></a>
+        <a href="https:www.instagram.com" class="btn btn-outline-light btn-social mx-1"><i class='fab fa-instagram'></i></a>
+        <br><br>
+            <p>Donate Blood, Save Lives!</p>
+            <p>For more information, visit our <a href="#">Blood Donation Website</a></p>
+            <p>&copy; 2024 Blood Donation </p>
+        </div>
+    </footer>
+</body>
+
+</html>

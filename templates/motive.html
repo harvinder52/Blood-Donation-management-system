@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<link rel="stylesheet" type="text/css" href="{% static 'css/logo.css'%}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="shortcut icon" href="{% static 'images/logo.jpg' %}" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="{% static 'css/logo.css' %}">
+<script src="{% static 'portfolio.js' %}"></script>
+<body>
+    <div class="container-fluid mt-5" id="one">
+        <div>
+            <img src="{% static 'images/image5.jpg' %}" width="80" height="50" id="imglogo">
+        </div>
+        <h5 style="float:right;"><br><b><i>
+        </h5>
+        <h1>BLOOD DONATION</h1>
+    </div>
+    <div id="navbar">
+        <nav class="navbar navbar-expand-sm mt-1">
+            <div class="container-fluid">
+                <ul class="navbar-nav">
+                    {% comment %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login.html' %}">Login</a>
+                    </li> {% endcomment %}
+                    <li>
+                        <a class="nav-link" href="{% url 'motive.html' %}">Motive</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{% url 'requestforblood.html' %}">Request For Blood</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{% url 'seeallrequest.html' %}">See All Request</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{% url 'registerasdonor.html' %}">RegisterAsDonor</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{% url 'contactus.html' %}">Contactus</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{% url 'feedback.html' %}">Feedback</a>
+                    </li>
+                </ul>
+                
+            </div>
+        </nav>
+    </div>
+    <img src="{% static 'images/image30.gif' %}" width="100%" height="580">
+    <div class="container-fluis p-2 mt-3">
+        <h1 style="color:black;background-color:red;text-align:center;font-family:inkfree">
+            <marquee scrollamount="20" behavior="alternate"><b><i>Motive</i></b></marquee>
+        </h1>
+        <h5 style="text-align: center;"></h5>
+    </div>
+
+    <div class="container-fluid mt-5">
+        <div class="row">
+            <div class="col-6">
+                <h1 style="color:red;"><b>Blood Donation</b></h1>
+                <h5 style="text-align:justify;">
+
+                    Today in the developed world, most blood donors are unpaid volunteers who donate blood for a
+                    community supply.
+                    In some countries, established supplies are limited and donors usually give blood when family or
+                    friends need a
+                    transfusion (directed donation). Many donors donate for several reasons, such as a form of charity,
+                    general
+                    awareness regarding the demand or blood, increased confidence in oneself, helping a personal friend
+                    or relative,
+                    and social pressure. Despite the many reasons that people donate, not enough potential donors
+                    actively donate. However,
+                    this is reversed during disasters when blood donations increase, often creating an excess supply
+                    that will have to be later discarded.
+                    In countries that allow paid donation some people are paid, and in some cases there are incentives
+                    other than money such as paid time off from work. People can also have blood drawn for their own
+                    future use (autologous donation).
+                    Donating is relatively safe, but some donors have bruising where the needle is inserted or may feel
+                    faint.
+                </h5>
+            </div>
+            <div class="col-6"><img src="{% static 'images/image17.jpg' %}" height="80%" width="100%">
+            </div>
+        </div>
+        <div class="video__section">
+            <marquee scrollamount="20" behavior="alternate">
+                <h1 class="font-effect-shadow-multiple">MOTIVATIONAL VIDEOS</h1>
+            </marquee>
+            <h1 style="color:red" ;></h1>
+            <div class="container-fluid mt-2">
+                <div class="row">
+                    <div class="col-4">
+                        <iframe width="100%" height="260px" src="https://www.youtube.com/embed/Q55LrC7vijM" title="The Journey of Blood: What happens after you give blood | NHS Give Blood" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="col-4">
+                        <iframe width="100%" height="260px" src="https://www.youtube.com/embed/jmhiHKsEUXU" title="Donating Blood for the First Time" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="col-4">
+                        <iframe width="100%" height="260px"
+                            src="https://www.youtube.com/embed/Yxql1GVPJVk?si=9P5mrM4cWN4HJnS9"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer mt-auto py-3 bg-dark text-white">
+            <div class="container text-center">
+               <p>Stay Connected:</p>
+            <a href="https://www.facebook.com" class="btn btn-outline-light btn-social mx-1"><i class='fab fa-facebook-f'></i></a>
+            <a href="https://www.twitter.com" class="btn btn-outline-light btn-social mx-1"><i class='fab fa-twitter'></i></a>
+            <a href="https://www.linkedin.com" class="btn btn-outline-light btn-social mx-1"><i class='fab fa-linkedin-in'></i></a>
+            <a href="https:www.instagram.com" class="btn btn-outline-light btn-social mx-1"><i class='fab fa-instagram'></i></a>
+            <br><br>
+                <p>Donate Blood, Save Lives!</p>
+                <p>For more information, visit our <a href="#">Blood Donation Website</a></p>
+                <p>&copy; 2024 Blood Donation </p>
+            </div>
+        </footer>
+</body>
+
+</html>
