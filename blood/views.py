@@ -184,6 +184,7 @@ def motive(request):
 def index(request):
     return render(request, 'index.html')
 def request_for_blood(request):
+    context = {}
     if request.method == 'POST':
         
         full_name = request.POST.get('name')
@@ -205,8 +206,9 @@ def request_for_blood(request):
             date_of_birth=date_of_birth
         )
         blood_request.save()
-        return render(request,'success.html')
-    return render(request, 'requestforblood.html')
+        context["show_modal"] = True 
+        
+    return render(request, 'requestforblood.html', { 'show_modal': context.get("show_modal", False)})
 
 def success(request):
     return render(request, 'success.html')
