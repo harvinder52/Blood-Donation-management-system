@@ -60,8 +60,12 @@ def admin_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
 
+        # Log out user session if logged in
+        if 'logged_in_user' in request.session:
+            del request.session['logged_in_user']
+
+        user = authenticate(request, username=username, password=password)
         if user is not None and (user.is_staff or user.is_superuser):
             auth_login(request, user)
             return redirect('admin_dashboard')
@@ -74,7 +78,7 @@ def admin_login(request):
 
 def admin_logout(request):
     auth_logout(request)
-    return(redirect('/'))
+    return redirect('/')
 
 
 def user_dashboard(request):
@@ -84,6 +88,9 @@ def user_dashboard(request):
 
 
 def send_otp(request):
+    if request.user.is_authenticated:
+        auth_logout(request)  # Ensure admin is logged out if trying user login
+
     if request.method == 'POST':
         form = EmailForm(request.POST)
         if form.is_valid():
@@ -118,6 +125,11 @@ def verify_otp(request):
             if otp_record:
                 otp_record.is_verified = True
                 otp_record.save()
+
+                # Log out admin if logged in
+                if request.user.is_authenticated:
+                    auth_logout(request)
+
                 user, created = User.objects.get_or_create(email=email)
                 request.session['logged_in_user'] = user.email
                 return redirect('user_dashboard')
@@ -126,9 +138,15 @@ def verify_otp(request):
     else:
         form = OTPForm()
     return render(request, 'verify_otp.html', {'form': form})
+
 def logout_view(request):
-    auth_logout(request)  # This will log the user out
-    return redirect('/') 
+    if request.user.is_authenticated:
+        auth_logout(request)
+
+    if 'logged_in_user' in request.session:
+        del request.session['logged_in_user']
+
+    return redirect('/')
 
 def registed(request):
     if request.method == 'POST':
@@ -209,7 +227,8 @@ def register_as_donor(request):
     else:
         form = DonorForm()
 
-    return render(request, 'registerasdonor.html', {'form': form})
+    return render(request, 'registerasdonor.html', {'form': form, 'show_modal': context.get("show_modal", False)})
+
 
 def contact(request):
     if request.method == 'POST':

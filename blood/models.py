@@ -48,24 +48,33 @@ class Feedback(models.Model):
         return f'{self.first_name} {self.last_name}'
 
 
+
 class Donor(models.Model):
+    BLOOD_CHOICES = [
+        ('A', 'A+'),
+        ('A−', 'A−'),
+        ('B+', 'B+'),
+        ('B−', 'B−'),
+        ('AB+', 'AB+'),
+        ('AB−', 'AB−'),
+        ('O+', 'O+'),
+        ('O−', 'O−')
+    ]
+    
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)  # Ensuring unique email
-    contact_number = models.CharField(max_length=20, blank=True, null=True)  # Optional contact number
+    email = models.EmailField(unique=True)
+    contact_number = models.CharField(max_length=15, null=False, default='0000000000')  # Provide a default value
     state = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
-    address = models.TextField(blank=True, null=True)  # Optional address
-    GENDER_CHOICES = [
-        ('Male', 'Male'),
-        ('Female', 'Female'),
-    ]
-    gender = models.CharField(max_length=6, choices=GENDER_CHOICES)
-    blood_group = models.CharField(max_length=10)
+    address = models.TextField(null=True, blank=True)  # Keep nullable (optional)
+    gender = models.CharField(max_length=6, choices=[('Male', 'Male'), ('Female', 'Female')])
     date_of_birth = models.DateField()
+    blood_group = models.CharField(max_length=3, choices=BLOOD_CHOICES)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
 
 class BloodRequest(models.Model):
     full_name = models.CharField(max_length=100)
