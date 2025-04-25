@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 import random
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 import settings
 from .models import Contact
@@ -18,6 +18,7 @@ from django.core.mail import send_mail
 from .forms import DonorForm, EmailForm, FeedbackForm, OTPForm
 from .models import EmailOTP, User
 from django.utils import timezone
+from .models import BloodRequest, Donor, Feedback, Contact
 
 
 from .models import BloodRequest, Donor
@@ -72,12 +73,54 @@ Thank you for being a life-saver!
 
 
 # Approve a blood request
-def approve_request(request, request_id):
-    blood_request = get_object_or_404(BloodRequest, id=request_id)
-    blood_request.status = 'Approved'  # Update status to 'Approved'
-    blood_request.save()  # Save the changes
-    return redirect('admin_dashboard')  # Redirect to the admin dashboard
 
+def approve_request(request, request_id):
+    if not request.user.is_staff and not request.user.is_superuser:
+        return redirect('admin_login')
+    
+    blood_request = get_object_or_404(BloodRequest, id=request_id)
+    blood_request.status = 'Approved'
+    blood_request.save()
+    
+    # Normalize the blood group for comparison
+    requested_blood_group = blood_request.blood_group.replace('−', '-').strip().upper()
+    
+    # Query with normalized blood group
+    matched_donors = Donor.objects.filter(
+        blood_group__iexact=requested_blood_group
+    )
+    
+    matched_donors_data = [
+        {
+            'id': donor.id,
+            'name': f"{donor.first_name} {donor.last_name}",
+            'blood_group': donor.blood_group,
+            'city': donor.city,
+            'contact_number': donor.contact_number  # Added for admin reference
+        }
+        for donor in matched_donors
+    ]
+    
+    return JsonResponse({
+        'status': 'success',
+        'matched_donors': matched_donors_data,
+        'debug': {
+            'requested_blood_group': blood_request.blood_group,
+            'normalized_blood_group': requested_blood_group,
+            'match_count': len(matched_donors_data)
+        }
+    })
+def show_matched_donors(request, request_id):
+    # Get the blood request
+    blood_request = get_object_or_404(BloodRequest, id=request_id)
+
+    # Find all donors with the same blood group
+    matched_donors = Donor.objects.filter(blood_group=blood_request.blood_group)
+
+    return render(request, 'admin_dashboard.html', {
+        'blood_request': blood_request,
+        'matched_donors': matched_donors
+    })
 # Delete a blood request
 def delete_request(request, request_id):
     blood_request = get_object_or_404(BloodRequest, id=request_id)
@@ -88,15 +131,30 @@ def delete_donor(request, donor_id):
     donor = get_object_or_404(Donor, id=donor_id)
     donor.delete()  # Delete the donor from the database
     return redirect('admin_dashboard')
+def delete_feedback(request, id):
+    feedback = get_object_or_404(Feedback, id=id)
+    feedback.delete()
+    return redirect('admin_dashboard')  # Redirecting back to the Admin Dashboard
 
+# View for deleting a contact us entry
+def delete_contact_us(request, id):
+    contact = get_object_or_404(Contact, id=id)
+    contact.delete()
+    return redirect('admin_dashboard')
 @login_required(login_url='admin_login')
 def admin_dashboard(request):
     if not request.user.is_staff and not request.user.is_superuser:
         return redirect('admin_login')
     blood_requests = BloodRequest.objects.all()
     donors = Donor.objects.all()  # Query all donors
-    return render(request, 'admin_dashboard.html', {'blood_requests': blood_requests, 'donors': donors})
-
+    feedbacks = Feedback.objects.all()  # Fetching all feedback
+    contact_us_entries = Contact.objects.all() 
+    return render(request, 'admin_dashboard.html', {
+        'blood_requests': blood_requests,
+        'donors': donors,
+        'feedbacks': feedbacks,
+        'contact_us_entries': contact_us_entries,
+    })
 
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
@@ -195,36 +253,6 @@ def logout_view(request):
 
     return redirect('/')
 
-def registed(request):
-    if request.method == 'POST':
-        Name=request.POST.get('name')
-        Email=request.POST.get('email')
-        Phonenumber=request.POST.get('phonenumber')
-        Bloodtype = request.POST.get('bloodtype')
-        
-        rgn= registerform()
-        rgn=name=Name
-        rgn.email=Email
-        rgn.phonenumber=Phonenumber
-        rgn.bloodtype=BloodType
-        rgn.save()
-        return render(request,'login.html')
-    return render(request,'registration.html')
-
-def login(request):
-    if request.method == 'POST':
-        Username=request.POST.get('username')
-        Email = request.POST.get('email')
-        Password = request.POST.get('pwd')
-        
-        lgn = loginform()
-        lgn.username=Username
-        lgn.email=Email
-        lgn.password=Password
-        lgn.save()
-        return render(request,'index.html')
-    return render(request,'login.html')
-
 def motive(request):
     return render(request, 'motive.html')
 
@@ -264,21 +292,28 @@ def see_all_request(request):
     return render(request, 'seeallrequest.html', {'blood_requests': blood_requests})
 
 
+
+
+
 def register_as_donor(request):
-    context = {}
     if request.method == 'POST':
         form = DonorForm(request.POST)
         if form.is_valid():
             form.save()
-        
-        context["show_modal"] = True  # Save the donor data to the database
-             # Redirect to a success page after successful registration
+            # Redirect with success parameter
+            return redirect('register_as_donor_success')
     else:
         form = DonorForm()
+    
+    return render(request, 'registerasdonor.html', {'form': form})
 
-    return render(request, 'registerasdonor.html', {'form': form, 'show_modal': context.get("show_modal", False)})
-
-
+def register_as_donor_success(request):
+    # This view just shows the form again with modal trigger
+    return render(request, 'registerasdonor.html', {
+        'form': DonorForm(),
+        'show_modal': True
+    })
+    
 def contact(request):
     if request.method == 'POST':
         name = request.POST.get('name')

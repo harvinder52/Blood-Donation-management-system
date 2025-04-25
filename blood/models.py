@@ -45,7 +45,7 @@ class Feedback(models.Model):
 
 class Donor(models.Model):
     BLOOD_CHOICES = [
-        ('A', 'A+'),
+        ('A+', 'A+'),
         ('A−', 'A−'),
         ('B+', 'B+'),
         ('B−', 'B−'),
@@ -108,3 +108,5 @@ def admin_dashboard(request):
         'blood_requests': blood_requests,
         'donors': donors,
     })
+
+
