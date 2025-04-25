@@ -23,29 +23,23 @@ class EmailOTP(models.Model):
 class Contact(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
-    phone = models.CharField(max_length=15)
+    phone = models.CharField(max_length=15, blank=True, null=True)
     blood_need = models.CharField(max_length=100)
+    message = models.TextField(blank=True, null=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} - {self.blood_need}"
 
 class Feedback(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     email = models.EmailField()
-    time_to_contact = models.CharField(max_length=20)
-    first_time_donator = models.CharField(max_length=3)
-    where_heard_about_us = models.CharField(max_length=50)
-    inspiration_to_donate = models.CharField(max_length=100)
-    process_easy = models.CharField(max_length=3) 
-    donate_next_year = models.CharField(max_length=3)
-    recommend_to_others = models.CharField(max_length=3)
-    improve_experience = models.TextField()
-    improve_utilization = models.TextField()
-    age_range = models.CharField(max_length=20)
+    message = models.TextField()
+    rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], default=5)
+    submitted_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f"Feedback from {self.name} ({self.email})"
 
 
 

@@ -15,7 +15,7 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import send_mail
-from .forms import DonorForm, EmailForm, OTPForm
+from .forms import DonorForm, EmailForm, FeedbackForm, OTPForm
 from .models import EmailOTP, User
 from django.utils import timezone
 
@@ -283,7 +283,7 @@ def contact(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
-        phone = request.POST.get('Phoneno')
+        phone = request.POST.get('phone')
         blood_need = request.POST.get('blood_need')  
         contact = Contact(name=name, email=email, phone=phone, blood_need=blood_need)
         contact.save()
@@ -294,43 +294,20 @@ def thanks(request):
     return render(request, 'thanks.html')
 
 
-def feedback(request):
-    if request.method == 'POST':
-        # Retrieve data from the form
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        email = request.POST.get('email')
-        time_to_contact = request.POST.get('time_to_contact')
-        first_time_donator = request.POST.get('first_time_donator')
-        where_heard_about_us = request.POST.get('where_heard_about_us')
-        inspiration_to_donate = request.POST.get('inspiration_to_donate')
-        process_easy = request.POST.get('process_easy')
-        donate_next_year = request.POST.get('donate_next_year')
-        recommend_to_others = request.POST.get('recommend_to_others')
-        improve_experience = request.POST.get('improve_experience')
-        improve_utilization = request.POST.get('improve_utilization')
-        age_range = request.POST.get('age_range')
 
-        # Create a new Feedback object and save it to the database
-        feedback = Feedback(
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            time_to_contact=time_to_contact,
-            first_time_donator=first_time_donator,
-            where_heard_about_us=where_heard_about_us,
-            inspiration_to_donate=inspiration_to_donate,
-            process_easy=process_easy,
-            donate_next_year=donate_next_year,
-            recommend_to_others=recommend_to_others,
-            improve_experience=improve_experience,
-            improve_utilization=improve_utilization,
-            age_range=age_range
-        )
-        feedback.save()
+def feedback_view(request):
+    if request.method == "POST":
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('thanks_feedback')  # Redirect to a thank you page or feedback listing page.
+    else:
+        form = FeedbackForm()
 
-        return render(request,'thanks_feedback.html')
-    return render(request, 'feedback.html')
+    return render(request, 'feedback.html', {'form': form})
+
+def thank_you(request):
+    return render(request, 'thans_feedback.html')
 
 
 
@@ -339,3 +316,9 @@ def feedback(request):
 
 def thanks_feedback(request):
     return render(request, 'thanks_feedback.html')
+
+
+
+def contact_list(request):
+    contacts = Contact.objects.all().order_by('-submitted_at')
+    return render(request, 'contact_list.html', {'contacts': contacts})

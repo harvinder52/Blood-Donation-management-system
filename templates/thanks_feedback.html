@@ -1,40 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thanks for Your Feedback</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/thanks_feedback.css' %}">
-</head>
-<style>
-    body {
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
-}
-
-.container {
-    width: 80%;
-    margin: 0 auto;
-    text-align: center;
-    padding-top: 50px;
-}
-
-h1 {
-    color: #333;
-}
-
-p {
-    color: #666;
-    font-size: 18px;
-    margin-top: 20px;
-}
-</style>
-<body>
-    <div class="container">
-        <h1>Thanks for Your Feedback!</h1>
-        <p>We appreciate your time and input. Your feedback helps us improve our services.</p>
-    </div>
-</body>
-</html>
+{% extends 'base.html' %} {% block content %}
+<div class="container my-5 bg-white p-4 shadow rounded-4">
+  <h3 class="text-center mb-4">Thank You for Your Feedback!</h3>
+  <p class="text-center">
+    We appreciate your thoughts and will use them to improve our services.
+  </p>
+</div>
+{% endblock %}

@@ -5,12 +5,11 @@ from .models import Contact, Feedback, Donor, BloodRequest
 class ContactAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'phone', 'blood_need')
 
-@admin.register(Feedback)
 class FeedbackAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'email', 'time_to_contact', 'first_time_donator', 'where_heard_about_us', 'inspiration_to_donate', 'process_easy', 'donate_next_year', 'recommend_to_others', 'age_range')
-    list_filter = ('time_to_contact', 'first_time_donator', 'where_heard_about_us', 'process_easy', 'donate_next_year', 'recommend_to_others', 'age_range')
-    search_fields = ('first_name', 'last_name', 'email')
+    list_display = ('name', 'email', 'message', 'rating', 'submitted_at')  # Keep only the fields in the model
+    list_filter = ('rating', 'submitted_at')  # Use existing fields for filtering
 
+admin.site.register(Feedback, FeedbackAdmin)
 @admin.register(Donor)
 class DonorAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'email', 'contact_number', 'state', 'city', 'address', 'gender', 'blood_group', 'date_of_birth')

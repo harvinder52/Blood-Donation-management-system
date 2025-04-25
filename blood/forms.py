@@ -1,4 +1,5 @@
 from django import forms
+from .models import Feedback
 from .models import Donor
 
 class EmailForm(forms.Form):
@@ -12,3 +13,8 @@ class DonorForm(forms.ModelForm):
     class Meta:
         model = Donor
         fields = ['first_name', 'last_name', 'email', 'contact_number', 'state', 'city', 'address', 'gender', 'blood_group', 'date_of_birth']
+
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model = Feedback
+        fields = ['name', 'email', 'message', 'rating']

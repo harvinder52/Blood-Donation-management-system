@@ -1,65 +1,200 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 <!-- Hero Section -->
-<div class="hero-section">
-  <img src="{% static 'images/image30.png' %}" alt="Blood Donation" />
-</div>
+<section class="hero-section position-relative">
+  <div class="hero-overlay"></div>
+  <img
+    src="{% static 'images/image30.png' %}"
+    alt="Blood Donation Hero"
+    class="img-fluid w-100"
+    style="height: 400px; object-fit: cover"
+  />
+</section>
 
 <!-- Main Content -->
-<div class="container main-content">
-  <h1>MOTIVE</h1>
+<main class="container py-5">
+  <section class="mb-5 text-center">
+    <h2 class="display-5 fw-bold text-danger mb-4">
+      WHY BLOOD DONATION MATTERS
+    </h2>
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="p-4 p-lg-5 bg-light rounded-3 shadow-sm">
+          <h3 class="h2 text-danger mb-4">
+            <i class="fas fa-tint me-2"></i>The Power of Donation
+          </h3>
+          <p class="lead text-muted">
+            Every 2 seconds, someone in the world needs blood. Yet only 3% of
+            eligible people donate annually.
+          </p>
+          <p>
+            Blood donation is a vital community service that saves millions of
+            lives each year. In developed nations, most donors are unpaid
+            volunteers who contribute to maintain community blood supplies.
+            While some countries have established blood banks, others still rely
+            on family donations during emergencies.
+          </p>
+          <p>
+            Despite various motivations - from altruism to social responsibility
+            - the global donor pool remains insufficient to meet demand.
+            Interestingly, disaster situations often see temporary surges in
+            donations, sometimes creating temporary oversupply.
+          </p>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <img
+          src="{% static 'images/image17.png' %}"
+          alt="Blood donation process"
+          class="img-fluid rounded-3 shadow"
+        />
+      </div>
+    </div>
+  </section>
 
-  <div class="content-section">
-    <div class="content-text">
-      <h2 class="text-danger"><b>Blood Donation</b></h2>
-      <p>
-        Today, most blood donors in developed countries are unpaid volunteers
-        who donate blood for community supply. Some countries have established
-        blood banks while others depend on family members to donate blood for
-        their loved ones. Blood donation has several reasons including charity,
-        social awareness, and helping friends or relatives. Despite the many
-        reasons, the number of active donors is insufficient. However, during
-        disasters, blood donations rise significantly, sometimes leading to
-        excess supply.
-      </p>
+  <!-- Impact Statistics -->
+  <section class="mb-5 py-4 bg-danger bg-opacity-10 rounded-3">
+    <div class="container">
+      <h3 class="text-center text-danger mb-4 fw-bold">
+        THE IMPACT OF YOUR DONATION
+      </h3>
+      <div class="row text-center g-4">
+        <div class="col-md-4">
+          <div class="p-3">
+            <div class="display-4 fw-bold text-danger">1</div>
+            <p class="mb-0 fw-medium">Donation can save</p>
+            <h4 class="text-danger">3 Lives</h4>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="p-3">
+            <div class="display-4 fw-bold text-danger">56</div>
+            <p class="mb-0 fw-medium">Days needed for</p>
+            <h4 class="text-danger">Red Blood Cell Regeneration</h4>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="p-3">
+            <div class="display-4 fw-bold text-danger">48</div>
+            <p class="mb-0 fw-medium">Hours between</p>
+            <h4 class="text-danger">Platelet Donations</h4>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="content-img">
-      <img src="{% static 'images/image17.png' %}" alt="Blood Donation Image" />
-    </div>
-  </div>
+  </section>
 
   <!-- Motivational Videos -->
-  <div class="video-section">
-    <h2>MOTIVATIONAL VIDEOS</h2>
+  <section class="mb-5">
+    <div class="text-center mb-4">
+      <h2 class="display-5 fw-bold text-danger">INSPIRATIONAL STORIES</h2>
+      <p class="lead text-muted">See how blood donations transform lives</p>
+    </div>
 
-    <div class="row">
+    <div class="row g-4">
       <div class="col-md-4">
-        <iframe
-          width="100%"
-          height="260px"
-          src="https://www.youtube.com/embed/Q55LrC7vijM"
-          frameborder="0"
-          allowfullscreen
-        ></iframe>
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-0 overflow-hidden rounded-top">
+            <iframe
+              width="100%"
+              height="220"
+              src="https://www.youtube.com/embed/Q55LrC7vijM"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              class="rounded-top"
+            ></iframe>
+          </div>
+          <div class="card-footer bg-white border-0">
+            <h5 class="fw-bold">The Ripple Effect</h5>
+            <p class="small text-muted">
+              How one donation creates a chain of survival
+            </p>
+          </div>
+        </div>
       </div>
+
       <div class="col-md-4">
-        <iframe
-          width="100%"
-          height="260px"
-          src="https://www.youtube.com/embed/jmhiHKsEUXU"
-          frameborder="0"
-          allowfullscreen
-        ></iframe>
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-0 overflow-hidden rounded-top">
+            <iframe
+              width="100%"
+              height="220"
+              src="https://www.youtube.com/embed/jmhiHKsEUXU"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              class="rounded-top"
+            ></iframe>
+          </div>
+          <div class="card-footer bg-white border-0">
+            <h5 class="fw-bold">Heroes Among Us</h5>
+            <p class="small text-muted">
+              Regular donors share their motivations
+            </p>
+          </div>
+        </div>
       </div>
+
       <div class="col-md-4">
-        <iframe
-          width="100%"
-          height="260px"
-          src="https://www.youtube.com/embed/Yxql1GVPJVk"
-          frameborder="0"
-          allowfullscreen
-        ></iframe>
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-0 overflow-hidden rounded-top">
+            <iframe
+              width="100%"
+              height="220"
+              src="https://www.youtube.com/embed/Yxql1GVPJVk"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              class="rounded-top"
+            ></iframe>
+          </div>
+          <div class="card-footer bg-white border-0">
+            <h5 class="fw-bold">A Mother's Gratitude</h5>
+            <p class="small text-muted">
+              How donated blood saved her child's life
+            </p>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="py-4 bg-light rounded-3 text-center">
+    <h3 class="mb-3">Ready to Make a Difference?</h3>
+    {% if 'logged_in_user' in request.session %}
+    <a href="{% url 'register_as_donor' %}" class="btn btn-danger btn-lg px-4">
+      <i class="fas fa-hand-holding-heart me-2"></i>Become a Donor Today
+    </a>
+    {% else %}
+    <a href="{% url 'send_otp' %}" class="btn btn-danger btn-lg px-4">
+      <i class="fas fa-hand-holding-heart me-2"></i>Become a Donor Today
+    </a>
+    {% endif %}
+  </section>
+</main>
 {% endblock %}
+
+<style>
+  .hero-section {
+    position: relative;
+    margin-bottom: 3rem;
+  }
+  .lead {
+    color: white;
+  }
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+  }
+  .hero-content {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  }
+  iframe {
+    border-radius: 0.375rem 0.375rem 0 0 !important;
+  }
+</style>
