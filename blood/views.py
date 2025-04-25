@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 import random
 from django.http import HttpResponse
+
+import settings
 from .models import Contact
 from .models import Feedback
 from .models import Donor
@@ -23,6 +25,51 @@ from .models import BloodRequest, Donor
 
 
 from django.shortcuts import render, redirect, get_object_or_404
+
+from django.shortcuts import get_object_or_404, redirect
+from django.core.mail import send_mail
+from django.contrib import messages
+from .models import Donor, BloodRequest
+
+def approve_donor_for_request(request, donor_id, request_id):
+    donor = get_object_or_404(Donor, id=donor_id)
+    blood_request = get_object_or_404(BloodRequest, id=request_id)
+
+    # Compose email content
+    subject = 'Blood Donation Request Notification'
+    message = f'''
+Dear {donor.first_name} {donor.last_name},
+
+You have been identified as a matching donor for a blood request.
+
+Requester Name: {blood_request.full_name}
+Blood Group: {blood_request.blood_group}
+City: {blood_request.city}
+Contact: {blood_request.contact_number}
+Address: {blood_request.address}
+
+If you're willing to donate, please get in touch with the requester as soon as possible.
+
+Thank you for being a life-saver!
+- Blood Donation Team
+'''
+    recipient_email = donor.email
+
+    # Send email (Make sure EMAIL settings are properly configured in settings.py)
+    try:
+       send_mail(
+            subject=subject,
+            message=message,
+            from_email=settings.EMAIL_HOST_USER,  # Use from settings
+            recipient_list=[recipient_email],
+            fail_silently=False
+        )
+       messages.success(request, f'Notification email sent to {donor.first_name} {donor.last_name}.')
+    except Exception as e:
+        messages.error(request, f'Failed to send email: {str(e)}')
+
+    return redirect('admin_dashboard')  # Replace with your dashboard view name
+
 
 # Approve a blood request
 def approve_request(request, request_id):

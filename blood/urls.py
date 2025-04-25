@@ -19,6 +19,8 @@ urlpatterns = [
     path('',views.index, name='index'),
     path('registration/',views.registed,name='registration') ,
     path('motive/', views.motive, name='motive'),
+    path('approve-donor/<int:donor_id>/<int:request_id>/', views.approve_donor_for_request, name='approve_donor_for_request'),
+
     path('index/', views.index, name='index'),
     path('requestforblood/', views.request_for_blood, name='request_for_blood'),
     path('registerasdonor/', views.register_as_donor, name='register_as_donor'),

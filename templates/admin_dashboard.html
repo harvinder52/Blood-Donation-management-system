@@ -1,102 +1,168 @@
-{% extends 'base.html' %} {% block content %}
-<div class="container mt-5 my-5 bg-white">
-  <h3 class="text-center mb-4">Welcome to the Admin Dashboard</h3>
-  <p class="text-center">Hello, {{ user.username }}!</p>
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-4">
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h2 class="mb-3">Admin Dashboard</h2>
+      <p class="lead">Welcome, <strong>{{ user.username }}</strong></p>
+    </div>
+  </div>
 
   <!-- Blood Requests Section -->
-  <h3 class="text-center mb-4">Blood Requests</h3>
-  {% if blood_requests %}
-  <div class="table-responsive">
-    <table class="table table-striped table-hover table-bordered">
-      <thead class="thead-dark">
-        <tr>
-          <th>Name</th>
-          <th>Blood Group</th>
-          <th>City</th>
-          <th>Contact</th>
-          <th>Address</th>
-          <th>Date of Birth</th>
-          <th>Actions</th>
-          <!-- New column for action buttons -->
-        </tr>
-      </thead>
-      <tbody>
-        {% for request in blood_requests %}
-        <tr>
-          <td>{{ request.full_name }}</td>
-          <td>{{ request.blood_group }}</td>
-          <td>{{ request.city }}</td>
-          <td>{{ request.contact_number }}</td>
-          <td>{{ request.address }}</td>
-          <td>{{ request.date_of_birth }}</td>
-          <td>
-            <!-- Approve button -->
-            <a
-              href="{% url 'approve_request' request.id %}"
-              class="btn btn-success btn-sm"
-              >Approve</a
-            >
-
-            <!-- Delete button -->
-            <a
-              href="{% url 'delete_request' request.id %}"
-              class="btn btn-danger btn-sm"
-              onclick="return confirm('Are you sure you want to delete this request?');"
-              >Delete</a
-            >
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <div class="card mb-5 shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">Blood Requests</h4>
+    </div>
+    <div class="card-body">
+      {% if blood_requests %}
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>Name</th>
+              <th>Blood Group</th>
+              <th>City</th>
+              <th>Contact</th>
+              <th>Address</th>
+              <th>Date of Birth</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for request in blood_requests %}
+            <tr>
+              <td>{{ request.full_name }}</td>
+              <td><span class="badge bg-danger">{{ request.blood_group }}</span></td>
+              <td>{{ request.city }}</td>
+              <td>{{ request.contact_number }}</td>
+              <td>{{ request.address|truncatechars:20 }}</td>
+              <td>{{ request.date_of_birth }}</td>
+              <td>
+                <div class="d-flex gap-2">
+                  <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#donorModal{{ request.id }}">
+                    <i class="bi bi-check-circle"></i> Approve
+                  </button>
+                  <a href="{% url 'delete_request' request.id %}" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this request?');">
+                    <i class="bi bi-trash"></i> Delete
+                  </a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="alert alert-info">No blood requests found.</div>
+      {% endif %}
+    </div>
   </div>
-  {% else %}
-  <p>No blood requests found.</p>
-  {% endif %}
 
   <!-- Donors Section -->
-  <h3 class="text-center mt-5 mb-4">Registered Donors</h3>
-  {% if donors %}
-  <div class="table-responsive">
-    <table class="table table-striped table-hover table-bordered">
-      <thead class="thead-dark">
-        <tr>
-          <th>Name</th>
-          <th>Blood Group</th>
-          <th>City</th>
-          <th>Contact</th>
-          <th>Address</th>
-          <th>Date of Birth</th>
-          <th>Actions</th>
-          <!-- New column for action buttons -->
-        </tr>
-      </thead>
-      <tbody>
-        {% for donor in donors %}
-        <tr>
-          <td>{{ donor.first_name }} {{ donor.last_name }}</td>
-          <td>{{ donor.blood_group }}</td>
-          <td>{{ donor.city }}</td>
-          <td>{{ donor.contact_number }}</td>
-          <td>{{ donor.address }}</td>
-          <td>{{ donor.date_of_birth }}</td>
-          <td>
-            <!-- Delete button for donors -->
-            <a
-              href="{% url 'delete_donor' donor.id %}"
-              class="btn btn-danger btn-sm"
-              onclick="return confirm('Are you sure you want to delete this donor?');"
-              >Delete</a
-            >
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <div class="card shadow-sm">
+    <div class="card-header bg-success text-white">
+      <h4 class="mb-0">Registered Donors</h4>
+    </div>
+    <div class="card-body">
+      {% if donors %}
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>Name</th>
+              <th>Blood Group</th>
+              <th>City</th>
+              <th>Contact</th>
+              <th>Address</th>
+              <th>Date of Birth</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for donor in donors %}
+            <tr>
+              <td>{{ donor.first_name }} {{ donor.last_name }}</td>
+              <td><span class="badge bg-danger">{{ donor.blood_group }}</span></td>
+              <td>{{ donor.city }}</td>
+              <td>{{ donor.contact_number }}</td>
+              <td>{{ donor.address|truncatechars:20 }}</td>
+              <td>{{ donor.date_of_birth }}</td>
+              <td>
+                <a href="{% url 'delete_donor' donor.id %}" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this donor?');">
+                  <i class="bi bi-trash"></i> Delete
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="alert alert-info">No donors found.</div>
+      {% endif %}
+    </div>
   </div>
-  {% else %}
-  <p>No donors found.</p>
-  {% endif %}
 </div>
+
+<!-- Modals for matched donors (placed at the bottom) -->
+{% for request in blood_requests %}
+<div class="modal fade" id="donorModal{{ request.id }}" tabindex="-1" aria-labelledby="donorModalLabel{{ request.id }}" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="donorModalLabel{{ request.id }}">
+          Matched Donors (Blood Group: {{ request.blood_group }})
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% with donors|dictsort:"blood_group" as matched_donors %}
+        {% if matched_donors %}
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead class="table-light">
+              <tr>
+                <th>Name</th>
+                <th>City</th>
+                <th>Contact</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <div class="modal-body">
+  {% for donor in donors %}
+    {% if donor.blood_group == request.blood_group %}
+    <tr>
+      <td>{{ donor.first_name }} {{ donor.last_name }}</td>
+      <td>{{ donor.city }}</td>
+      <td>{{ donor.contact_number }}</td>
+      <td>
+        <a href="{% url 'approve_donor_for_request' donor.id request.id %}" class="btn btn-primary btn-sm">
+          Notify
+        </a>
+      </td>
+    </tr>
+    {% endif %}
+  {% empty %}
+    <tr>
+      <td colspan="4" class="text-muted">No matching donors found</td>
+    </tr>
+  {% endfor %}
+</div>
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <div class="alert alert-warning">No matching donors found.</div>
+        {% endif %}
+        {% endwith %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
 
 {% endblock %}
