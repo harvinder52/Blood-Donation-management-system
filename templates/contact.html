@@ -36,19 +36,29 @@
 
     <div class="row mb-3">
       <div class="col-md-6">
-        <label for="phone">Phone:</label>
-        <input type="text" id="phone" name="phone" required>
-        
-      <div class="col-md-6">
-        <label for="blood_need" class="form-label">Blood Needed</label>
+        <label for="phone" class="form-label">Phone</label>
         <input
-          type="text"
+          type="tel"
           class="form-control"
-          id="blood_need"
-          name="blood_need"
-          placeholder="e.g. A+, O-, etc."
+          id="phone"
+          name="phone"
+          placeholder="Enter your phone number"
           required
         />
+      </div>
+      <div class="col-md-6">
+        <label for="blood_need" class="form-label">Blood Needed</label>
+        <select class="form-select" id="blood_need" name="blood_need" required>
+          <option value="" disabled selected>Select blood group</option>
+          <option value="A+">A+</option>
+          <option value="A-">A−</option>
+          <option value="B+">B+</option>
+          <option value="B-">B−</option>
+          <option value="AB+">AB+</option>
+          <option value="AB-">AB−</option>
+          <option value="O+">O+</option>
+          <option value="O-">O−</option>
+        </select>
       </div>
     </div>
 

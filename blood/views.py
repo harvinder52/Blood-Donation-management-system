@@ -72,8 +72,6 @@ Thank you for being a life-saver!
     return redirect('admin_dashboard')  # Replace with your dashboard view name
 
 
-# Approve a blood request
-
 def approve_request(request, request_id):
     if not request.user.is_staff and not request.user.is_superuser:
         return redirect('admin_login')
@@ -82,21 +80,22 @@ def approve_request(request, request_id):
     blood_request.status = 'Approved'
     blood_request.save()
     
-    # Normalize the blood group for comparison
+    # Normalize blood group
     requested_blood_group = blood_request.blood_group.replace('−', '-').strip().upper()
     
-    # Query with normalized blood group
+    # Match donors ONLY by blood group
     matched_donors = Donor.objects.filter(
         blood_group__iexact=requested_blood_group
     )
-    
+
     matched_donors_data = [
         {
             'id': donor.id,
             'name': f"{donor.first_name} {donor.last_name}",
             'blood_group': donor.blood_group,
             'city': donor.city,
-            'contact_number': donor.contact_number  # Added for admin reference
+            'email': donor.email,
+            'contact_number': donor.contact_number
         }
         for donor in matched_donors
     ]
@@ -110,6 +109,7 @@ def approve_request(request, request_id):
             'match_count': len(matched_donors_data)
         }
     })
+
 def show_matched_donors(request, request_id):
     # Get the blood request
     blood_request = get_object_or_404(BloodRequest, id=request_id)
