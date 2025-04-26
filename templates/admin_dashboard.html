@@ -1,102 +1,363 @@
-{% extends 'base.html' %} {% block content %}
-<div class="container mt-5 my-5 bg-white">
-  <h3 class="text-center mb-4">Welcome to the Admin Dashboard</h3>
-  <p class="text-center">Hello, {{ user.username }}!</p>
+{% extends 'base.html' %} 
+{% block content %}
+<div class="container my-4">
+  <!-- Admin Welcome Section -->
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h2 class="mb-3 text-primary">Admin Dashboard</h2>
+      <p class="lead text-muted">
+        Welcome, <strong>{{ user.username }}</strong>! Here is an overview of
+        the system.
+      </p>
+    </div>
+  </div>
 
   <!-- Blood Requests Section -->
-  <h3 class="text-center mb-4">Blood Requests</h3>
-  {% if blood_requests %}
-  <div class="table-responsive">
-    <table class="table table-striped table-hover table-bordered">
-      <thead class="thead-dark">
-        <tr>
-          <th>Name</th>
-          <th>Blood Group</th>
-          <th>City</th>
-          <th>Contact</th>
-          <th>Address</th>
-          <th>Date of Birth</th>
-          <th>Actions</th>
-          <!-- New column for action buttons -->
-        </tr>
-      </thead>
-      <tbody>
-        {% for request in blood_requests %}
-        <tr>
-          <td>{{ request.full_name }}</td>
-          <td>{{ request.blood_group }}</td>
-          <td>{{ request.city }}</td>
-          <td>{{ request.contact_number }}</td>
-          <td>{{ request.address }}</td>
-          <td>{{ request.date_of_birth }}</td>
-          <td>
-            <!-- Approve button -->
-            <a
-              href="{% url 'approve_request' request.id %}"
-              class="btn btn-success btn-sm"
-              >Approve</a
-            >
-
-            <!-- Delete button -->
-            <a
-              href="{% url 'delete_request' request.id %}"
-              class="btn btn-danger btn-sm"
-              onclick="return confirm('Are you sure you want to delete this request?');"
-              >Delete</a
-            >
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <div class="card mb-5 shadow-lg border-light">
+    <div
+      class="card-header bg-primary text-white d-flex justify-content-between align-items-center"
+    >
+      <h4 class="mb-0">Blood Requests</h4>
+      <i class="bi bi-clipboard-plus"></i>
+    </div>
+    <div class="card-body">
+      {% if blood_requests %}
+      <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th>Name</th>
+              <th>Blood Group</th>
+              <th>City</th>
+              <th>Contact</th>
+              <th>Address</th>
+              <th>D.O.B.</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for request in blood_requests %}
+            <tr>
+              <td>{{ request.full_name }}</td>
+              <td>
+                <span class="badge bg-danger">{{ request.blood_group }}</span>
+              </td>
+              <td>{{ request.city }}</td>
+              <td>{{ request.contact_number }}</td>
+              <td>{{ request.address|truncatechars:20 }}</td>
+              <td>{{ request.date_of_birth }}</td>
+              <td>
+                <div class="d-flex gap-2">
+                  <button type="button" class="btn btn-success btn-sm approve-btn" data-id="{{ request.id }}">
+                    <i class="bi bi-search-heart"></i> Find Donors
+                  </button>
+                  
+                  <a
+                    href="{% url 'delete_request' request.id %}"
+                    class="btn btn-outline-danger btn-sm"
+                    onclick="return confirm('Are you sure you want to delete this request?');"
+                  >
+                    <i class="bi bi-trash"></i> Delete
+                  </a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="alert alert-info">No blood requests found.</div>
+      {% endif %}
+    </div>
   </div>
-  {% else %}
-  <p>No blood requests found.</p>
-  {% endif %}
 
-  <!-- Donors Section -->
-  <h3 class="text-center mt-5 mb-4">Registered Donors</h3>
-  {% if donors %}
-  <div class="table-responsive">
-    <table class="table table-striped table-hover table-bordered">
-      <thead class="thead-dark">
-        <tr>
-          <th>Name</th>
-          <th>Blood Group</th>
-          <th>City</th>
-          <th>Contact</th>
-          <th>Address</th>
-          <th>Date of Birth</th>
-          <th>Actions</th>
-          <!-- New column for action buttons -->
-        </tr>
-      </thead>
-      <tbody>
-        {% for donor in donors %}
-        <tr>
-          <td>{{ donor.first_name }} {{ donor.last_name }}</td>
-          <td>{{ donor.blood_group }}</td>
-          <td>{{ donor.city }}</td>
-          <td>{{ donor.contact_number }}</td>
-          <td>{{ donor.address }}</td>
-          <td>{{ donor.date_of_birth }}</td>
-          <td>
-            <!-- Delete button for donors -->
-            <a
-              href="{% url 'delete_donor' donor.id %}"
-              class="btn btn-danger btn-sm"
-              onclick="return confirm('Are you sure you want to delete this donor?');"
-              >Delete</a
-            >
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  {% else %}
-  <p>No donors found.</p>
-  {% endif %}
 </div>
 
+ <!-- Registered Donors Section -->
+ <div class="card mb-5 shadow-lg border-light">
+  <div
+    class="card-header bg-success text-white d-flex justify-content-between align-items-center"
+  >
+    <h4 class="mb-0">Registered Donors</h4>
+    <i class="bi bi-person-plus"></i>
+  </div>
+  <div class="card-body">
+    {% if donors %}
+    <div class="table-responsive">
+      <table class="table table-hover table-bordered">
+        <thead class="table-light">
+          <tr>
+            <th>Name</th>
+            <th>Blood Group</th>
+            <th>City</th>
+            <th>Email</th>
+
+            <th>Contact</th>
+            <th>Address</th>
+            <th>D.O.B.</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for donor in donors %}
+          <tr>
+            <td>{{ donor.first_name }} {{ donor.last_name }}</td>
+            <td>
+              <span class="badge bg-danger">{{ donor.blood_group }}</span>
+            </td>
+            <td>{{ donor.city }}</td>
+            <td>{{ donor.email }}</td>
+            
+            <td>{{ donor.contact_number }}</td>
+            <td>{{ donor.address|truncatechars:20 }}</td>
+            <td>{{ donor.date_of_birth }}</td>
+            <td>
+              <a
+                href="{% url 'delete_donor' donor.id %}"
+                class="btn btn-outline-danger btn-sm"
+                onclick="return confirm('Are you sure you want to delete this donor?');"
+              >
+                <i class="bi bi-trash"></i> Delete
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">No donors found.</div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Feedback Section -->
+<div class="card mb-5 shadow-lg border-light">
+  <div
+    class="card-header bg-warning text-white d-flex justify-content-between align-items-center"
+  >
+    <h4 class="mb-0">Feedback</h4>
+    <i class="bi bi-pencil-square"></i>
+  </div>
+  <div class="card-body">
+    {% if feedbacks %}
+    <div class="table-responsive">
+      <table class="table table-hover table-bordered">
+        <thead class="table-light">
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Rating</th>
+            <th>Message</th>
+            <th>Submitted At</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for feedback in feedbacks %}
+          <tr>
+            <td>{{ feedback.name }}</td>
+            <td>{{ feedback.email }}</td>
+            <td>{{ feedback.rating }}</td>
+            <td>{{ feedback.message|truncatechars:50 }}</td>
+            <td>{{ feedback.submitted_at }}</td>
+            <td>
+              <a
+                href="{% url 'delete_feedback' feedback.id %}"
+                class="btn btn-outline-danger btn-sm"
+                onclick="return confirm('Are you sure you want to delete this feedback?');"
+              >
+                <i class="bi bi-trash"></i> Delete
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">No feedback found.</div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Contact Us Section -->
+<div class="card shadow-lg border-light">
+  <div
+    class="card-header bg-info text-white d-flex justify-content-between align-items-center"
+  >
+    <h4 class="mb-0">Contact Us Entries</h4>
+    <i class="bi bi-envelope-open"></i>
+  </div>
+  <div class="card-body">
+    {% if contact_us_entries %}
+    <div class="table-responsive">
+      <table class="table table-hover table-bordered">
+        <thead class="table-light">
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Message</th>
+            <th>Submitted At</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for contact in contact_us_entries %}
+          <tr>
+            <td>{{ contact.name }}</td>
+            <td>{{ contact.email }}</td>
+            <td>{{ contact.message|truncatechars:50 }}</td>
+            <td>{{ contact.submitted_at }}</td>
+            <td>
+              <a
+                href="{% url 'delete_contact_us' contact.id %}"
+                class="btn btn-outline-danger btn-sm"
+                onclick="return confirm('Are you sure you want to delete this contact entry?');"
+              >
+                <i class="bi bi-trash"></i> Delete
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">No contact entries found.</div>
+    {% endif %}
+  </div>
+</div>
+</div>
+
+<!-- Modal for Matched Donors -->
+<!-- Modal for Matched Donors -->
+<!-- Modal for Matched Donors -->
+<div class="modal fade" id="donorModal" tabindex="-1" aria-labelledby="donorModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="donorModalLabel">Available Matching Donors</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Donor</th>
+                <th>Blood Group</th>
+                <th>Location</th>
+                <th>Contact</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="donorList">
+              <!-- Will be populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// Update your JavaScript to use this enhanced layout
+document.querySelectorAll('.approve-btn').forEach(button => {
+  button.addEventListener('click', function() {
+    const requestId = this.dataset.id;
+    
+    fetch(`/approve_request/${requestId}/`, {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": "{{ csrf_token }}",
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === "success") {
+        const donorList = document.getElementById('donorList');
+        donorList.innerHTML = '';
+        
+        data.matched_donors.forEach(donor => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="ms-3">
+                  <h6 class="mb-0">${donor.name}</h6>
+                  <small class="text-muted">${donor.email}</small>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="badge bg-danger">${donor.blood_group}</span>
+            </td>
+            <td>${donor.city}</td>
+            <td>${donor.contact_number}</td>
+            <td>
+              <button class="btn btn-sm btn-success notify-btn" 
+                      data-donor-id="${donor.id}" 
+                      data-request-id="${requestId}">
+                <i class="bi bi-envelope"></i> Notify
+              </button>
+            </td>
+          `;
+          donorList.appendChild(row);
+        });
+        
+        // Add event listeners to new notify buttons
+        document.querySelectorAll('.notify-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const donorId = this.dataset.donorId;
+            const reqId = this.dataset.requestId;
+            notifyDonor(donorId, reqId);
+          });
+        });
+        
+        // Show modal
+        new bootstrap.Modal(document.getElementById('donorModal')).show();
+      }
+    });
+  });
+});
+
+function notifyDonor(donorId, requestId) {
+  const btn = document.querySelector(`button[data-donor-id="${donorId}"][data-request-id="${requestId}"]`);
+  btn.disabled = true;
+  btn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sending...`;
+  
+  fetch(`/approve_donor_for_request/${donorId}/${requestId}/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": "{{ csrf_token }}",
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      btn.innerHTML = `<i class="bi bi-check2-circle"></i> Notified`;
+      btn.classList.remove('btn-success');
+      btn.classList.add('btn-secondary');
+    } else {
+      btn.innerHTML = `<i class="bi bi-x-circle"></i> Failed`;
+      btn.classList.remove('btn-success');
+      btn.classList.add('btn-danger');
+    }
+  })
+  .catch(error => {
+    console.error("Error:", error);
+    btn.innerHTML = `<i class="bi bi-x-circle"></i> Error`;
+    btn.classList.remove('btn-success');
+    btn.classList.add('btn-danger');
+  });
+}
+
+</script>
 {% endblock %}
